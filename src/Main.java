@@ -14,21 +14,6 @@ public class Main {
      * @param args unused.
      */
     public static void main(String[] args) {
-//        String rgx = "^" //if start of str required to be good
-//                + "[a-zA-Z][a-zA-Z\\-]*(?<!\\-)" //First name starts/ends with letters, dashes allowed in middle
-//                + "( |, |,)" //strict valid separators.
-//                //+ "[, ]{1,2}" //optional less strict valid separators between first/last name
-//                + "[a-zA-Z][a-zA-Z\\-]*(?<!\\-)" //Last name starts/ends with letters, dashes allowed in middle
-//                + "(" //begin MI group
-//                + "( |, |,)?" //strict optional valid separators for middle initial
-//                //+ "[, ]{0,2}" //optional less strict valid separators for middle initial
-//                + "(?!\\-)" //MI cannot start with dash
-//                + "[a-zA-Z\\-]*" //MI can include dashes inside
-//                + "(?<!\\-| )" //MI cannot end with dashes
-////                + "\\.?" //optional allowance of MI to end in period
-//                + ")?" //end MI group
-//                + "$"; //end of string reached
-
         String rgx = "(?i)" //case-insensitive for whole thing
                 + "^" //start of string
                 + "([a-z]+-?)+" //last name can be any amount of letters, a dash, repeated
@@ -53,16 +38,11 @@ public class Main {
         return mat.matches(); //bet this works.
 
         //from the harness, probably don't need.
-/*        if (mat.find()) {
-            System.out.printf("I found the text" +
-                            " \"%s\" starting at " +
-                            "index %d and ending at index %d.%n",
-                    mat.group(),
-                    mat.start(),
-                    mat.end());
-            return true;
-        }
-        return false;*/
+//        if (mat.find()) {
+//            System.out.printf("Found: \"%s\" from %d to %d.%n", mat.group(), mat.start(), mat.end());
+//            return true;
+//        }
+//        return false;
     }
 
     /**
