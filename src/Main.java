@@ -14,18 +14,16 @@ public class Main {
      * @param args unused.
      */
     public static void main(String[] args) {
-        String rgx = "(?i)" //case-insensitive for whole thing
-                + "^" //start of string
-                + "([a-z]+-?)+" //last name can be any amount of letters, a dash, repeated
-                + "(?<!\\-)" //last name can't end in dash
-                + "( |, |,)" //strict separators
-                + "([a-z]+-?)+" //first name same rules as last name
-                + "(?<!\\-)" //first name same rule as last name
-                + "(" //begin MI group
-                + "( |, |,)" //strict separators
-                + "([a-z][-.]?){1,3}" //MI
-                + "(?<!\\-)" //MI can't end on dash
-                + ")?" //end of MI group, which is optional
+        String rgx = "^" //if start of str required to be good
+                + "(?!\\.)" //ensure local does not start with period
+                + "((?!\\.{2})[.!#$%&'*+\\-/=?^_`{|}~\\w\\d])*" //disallow consecutive periods, capture optional chunk.
+                + "[!#$%&'*+\\-/=?^_`{|}~\\w\\d]+" //final capture chunk of local, to ensure does not end on period.
+                + "@" //split to domain chunk
+                + "[a-zA-Z\\-\\d]+" //first domain chunk
+                + "\\." //main period of domain
+                + "(?!\\.)" //prevent consecutive periods.
+                + "((?!\\.{2})[a-zA-Z\\-.\\d])*" //optional middle domain chunk, allows non-consecutive periods.
+                + "[a-zA-Z\\-\\d]+" //final capture of domain, to ensure it doesn't end on periods
                 + "$"; //end of string reached
 
         System.out.println(rgx);
