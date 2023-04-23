@@ -29,7 +29,7 @@ public class DateTests {
     void basicYear() {
         assertTrue(Main.isDate("12-3-0"), "Year failed");
         assertTrue(Main.isDate("1-3-1"), "Year failed");
-        assertTrue(Main.isDate("1-3-99999999"), "Year failed");
+        assertTrue(Main.isDate("1-3-0003"), "Year failed");
         assertTrue(Main.isDate("1-3-2001"), "Year failed");
     }
 
@@ -58,6 +58,12 @@ public class DateTests {
     }
 
     /* Negatives. */
+
+    @Test
+    void largeYear() {
+        assertFalse(Main.isDate("2-29-19994565"), "Large year bad failed");
+        assertFalse(Main.isDate("2-29-214564600"), "Large year bad failed");
+    }
 
     @Test
     void leapYearBad() {

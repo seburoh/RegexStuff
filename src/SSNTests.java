@@ -16,23 +16,37 @@ public class SSNTests {
     }
 
     @Test
-    void testOneSpace() {
-        assertTrue(Main.isSSN("11122 3333"),"One Space failed");
-        assertTrue(Main.isSSN("111 223333"),"One Space failed");
-    }
-
-    @Test
-    void testOneDash() {
-        assertTrue(Main.isSSN("111-223333"),"One Dash failed");
-        assertTrue(Main.isSSN("11122-3333"),"One Dash failed");
-    }
-
-    @Test
     void testNoSpaces() {
         assertTrue(Main.isSSN("111223333"),"No Spaces failed");
     }
 
+    @Test
+    void smallValues() {
+        assertTrue(Main.isSSN("001-01-0001"),"Smalls failed");
+        assertTrue(Main.isSSN("010-10-0010"),"Smalls failed");
+        assertTrue(Main.isSSN("100-10-1000"),"Smalls failed");
+    }
+
+    @Test
+    void largeValues() {
+        assertTrue(Main.isSSN("899-99-9999"),"Large failed");
+        assertTrue(Main.isSSN("099-09-0999"),"Large failed");
+        assertTrue(Main.isSSN("009-90-9990"),"Large failed");
+    }
+
     /* Negatives. */
+
+    @Test
+    void testOneSpace() {
+        assertFalse(Main.isSSN("11122 3333"),"One Space failed");
+        assertFalse(Main.isSSN("111 223333"),"One Space failed");
+    }
+
+    @Test
+    void testOneDash() {
+        assertFalse(Main.isSSN("111-223333"),"One Dash failed");
+        assertFalse(Main.isSSN("11122-3333"),"One Dash failed");
+    }
 
     @Test
     void testPreceding() {

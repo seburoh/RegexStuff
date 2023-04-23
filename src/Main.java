@@ -15,19 +15,14 @@ public class Main {
      */
     public static void main(String[] args) {
         String rgx = "^" //if start of str required to be good
-                + "[a-zA-Z][a-zA-Z\\-]*[a-zA-Z]" //First name starts/ends with letters, dashes allowed in middle
-                + "( |, |,)" //strict valid separators.
-                //+ "[, ]{1,2}" //optional less strict valid separators between first/last name
-                + "[a-zA-Z][a-zA-Z\\-]*[a-zA-Z]" //Last name starts/ends with letters, dashes allowed in middle
-                + "(" //begin MI group
-                + "( |, |,)?" //strict optional valid separators for middle initial
-                //+ "[, ]{0,2}" //optional less strict valid separators for middle initial
-                + "(?!\\-)" //MI cannot start with dash
-                + "[a-zA-Z\\-]*" //MI can include dashes inside
-                + "(?<!\\-| )" //MI cannot end with dashes
-//                + "\\.?" //optional allowance of MI to end in period
-                + ")?" //end MI group
-                + "$"; //end of string reached
+                + "(?!666|000|9\\d{2})\\d{3}" //disallow 666,000,900-999, take 3 digits
+                //+ "[- ]?" //take - or space 0-1 times.
+                + "([- ]?)" //take - or space 0-1 times, remember decision
+                + "(?!00)\\d{2}" //disallow 00, take two digits
+                //+ "[- ]?" //take - or space 0-1 times.
+                + "\1" //recall remembered decision, ensure taken character is the same
+                + "(?!0000)\\d{4}" //disallow 0000, take four digits
+                + "$"; //if end of str required to be good
 
         System.out.println(rgx);
     }
@@ -54,8 +49,8 @@ public class Main {
     /**
      * Accepts only valid SSNs, well-formed.
      * No preceding or following characters allowed, 0-1 dashes or spaces allowed between number blocks.
-     * Allows for a mix of spaces and dashes.
-     * To disallow a mix, swap in commented lines for the lines above them.
+     * Dissalows for a mix of spaces and dashes.
+     * To allow a mix, swap in commented lines for the lines below them.
      * Uses rules for SSNs found <a href="https://en.wikipedia.org/wiki/Social_Security_number#Valid_SSNs">here</a>.
      * @param input string to check.
      * @return if string is valid SSN.
@@ -63,11 +58,11 @@ public class Main {
     public static boolean isSSN(final String input) {
         String rgx = "^" //if start of str required to be good
                 + "(?!666|000|9\\d{2})\\d{3}" //disallow 666,000,900-999, take 3 digits
-                + "[- ]?" //take - or space 0-1 times.
-                //+ "([- ]?)" //take - or space 0-1 times, remember decision
+                //+ "[- ]?" //take - or space 0-1 times.
+                + "([- ]?)" //take - or space 0-1 times, remember decision
                 + "(?!00)\\d{2}" //disallow 00, take two digits
-                + "[- ]?" //take - or space 0-1 times.
-                //+ "\1" //recall remembered decision, ensure taken character is the same
+                //+ "[- ]?" //take - or space 0-1 times.
+                + "\\1" //recall remembered decision, ensure taken character is the same
                 + "(?!0000)\\d{4}" //disallow 0000, take four digits
                 + "$"; //if end of str required to be good
 
@@ -166,8 +161,8 @@ public class Main {
 
     /**
      * Accepts valid dates in format of MM-DD-YYYY.
-     * Accepts any numerical value for Y, 0 year, 99999 year, all are years.
-     * Optional code commented out for securing that years must be 4 digits.
+     * Accepts any numerical value for Y up to four digits
+     * Optional code commented out for securing that years can be any length
      * Checks if month is within 1-12, 01 and 02 valid.
      * Checks if day is valid to current month, leading 0's for single digits valid.
      * @param input string to check if year.
@@ -186,8 +181,8 @@ public class Main {
                 + "|3[01]" //OR: days 30, 31
                 + ")" //end day capture group
                 + "[-/]{1}" //DD-YYYY separator
-                + "\\d+" //Years can be any amount of digits, 1, 01, 99999, they are all years at some point in time
-                //+ "\\d{4}" //optional four digit date only
+                //+ "\\d+" //Years can be any amount of digits, 1, 01, 99999, they are all years at some point in time
+                + "\\d{1,4}" //optional four digit date only
                 + "$"; //end of string reached
 
         if (regexChecker(rgx, input)) {
