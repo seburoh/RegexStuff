@@ -58,7 +58,54 @@ public class NameTests {
         assertTrue(Main.isName("Capaul, Tom, S"), "Basic failed");
     }
 
+    @Test
+    void smol() {
+        assertTrue(Main.isName("C, T,S"), "Basic failed");
+        assertTrue(Main.isName("C,T S"), "Basic failed");
+        assertTrue(Main.isName("C T, S"), "Basic failed");
+    }
+
+    @Test
+    void middleInitialLengthSeps() {
+        assertTrue(Main.isName("Capaul, Tom, S-C-o."), "Basic failed");
+        assertTrue(Main.isName("Capaul, Tom, SC-o"), "Basic failed");
+        assertTrue(Main.isName("Capaul, Tom, S-C-o"), "Basic failed");
+    }
+
+    @Test
+    void middleInitialLengthNoSeps() {
+        assertTrue(Main.isName("Capaul, Tom, SCo."), "Basic failed");
+        assertTrue(Main.isName("Capaul, Tom, SCo"), "Basic failed");
+    }
+
+    @Test
+    void goodMIPeriod() {
+        assertTrue(Main.isName("Capaul, Tom, S."), "Basic failed");
+        assertTrue(Main.isName("Capaul, Tom, S.C."), "Basic failed");
+        assertTrue(Main.isName("Capaul, Tom, S-C."), "Basic failed");
+    }
+
     /* Negatives. */
+
+    @Test
+    void badMILengthSeps() {
+        assertFalse(Main.isName("Capaul, Tom, SCod."), "Basic failed");
+        assertFalse(Main.isName("Capaul, Tom, SCo-d"), "Basic failed");
+        assertFalse(Main.isName("Capaul, Tom, S-C-od."), "Basic failed");
+    }
+
+    @Test
+    void badMILengthNoSeps() {
+        assertFalse(Main.isName("Capaul, Tom, SCod"), "Basic failed");
+        assertFalse(Main.isName("Capaul, Tom, SCodi"), "Basic failed");
+        assertFalse(Main.isName("Capaul, Tom, SCoding"), "Basic failed");
+    }
+
+    @Test
+    void badPeriod() {
+        assertFalse(Main.isName("Capaul, Tom."), "Basic failed");
+        assertFalse(Main.isName("Capaul, T."), "Basic failed");
+    }
 
     @Test
     void badChars() {

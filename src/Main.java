@@ -14,15 +14,34 @@ public class Main {
      * @param args unused.
      */
     public static void main(String[] args) {
-        String rgx = "^" //if start of str required to be good
-                + "(?!666|000|9\\d{2})\\d{3}" //disallow 666,000,900-999, take 3 digits
-                //+ "[- ]?" //take - or space 0-1 times.
-                + "([- ]?)" //take - or space 0-1 times, remember decision
-                + "(?!00)\\d{2}" //disallow 00, take two digits
-                //+ "[- ]?" //take - or space 0-1 times.
-                + "\1" //recall remembered decision, ensure taken character is the same
-                + "(?!0000)\\d{4}" //disallow 0000, take four digits
-                + "$"; //if end of str required to be good
+//        String rgx = "^" //if start of str required to be good
+//                + "[a-zA-Z][a-zA-Z\\-]*(?<!\\-)" //First name starts/ends with letters, dashes allowed in middle
+//                + "( |, |,)" //strict valid separators.
+//                //+ "[, ]{1,2}" //optional less strict valid separators between first/last name
+//                + "[a-zA-Z][a-zA-Z\\-]*(?<!\\-)" //Last name starts/ends with letters, dashes allowed in middle
+//                + "(" //begin MI group
+//                + "( |, |,)?" //strict optional valid separators for middle initial
+//                //+ "[, ]{0,2}" //optional less strict valid separators for middle initial
+//                + "(?!\\-)" //MI cannot start with dash
+//                + "[a-zA-Z\\-]*" //MI can include dashes inside
+//                + "(?<!\\-| )" //MI cannot end with dashes
+////                + "\\.?" //optional allowance of MI to end in period
+//                + ")?" //end MI group
+//                + "$"; //end of string reached
+
+        String rgx = "(?i)" //case-insensitive for whole thing
+                + "^" //start of string
+                + "([a-z]+-?)+" //last name can be any amount of letters, a dash, repeated
+                + "(?<!\\-)" //last name can't end in dash
+                + "( |, |,)" //strict separators
+                + "([a-z]+-?)+" //first name same rules as last name
+                + "(?<!\\-)" //first name same rule as last name
+                + "(" //begin MI group
+                + "( |, |,)" //strict separators
+                + "([a-z][-.]?){1,3}" //MI
+                + "(?<!\\-)" //MI can't end on dash
+                + ")?" //end of MI group, which is optional
+                + "$"; //end of string reached
 
         System.out.println(rgx);
     }
@@ -134,26 +153,24 @@ public class Main {
      * Accepts valid names in format of 'Last, First, MI'.
      * The separators between name chunks can be ',' ', ' or ' '.
      * Dashes are allowed within name chunks, including MI, but not at beginning/end of chunks.
-     * Less strict positioning rules are available, as the commented out code.
-     * Allowing the name to end with a period is also available as commented out code.
-     * Unintended behavior: Optional period function allows Last to end in period if MI not supplied.
+     * MI is allowed to contain/end with periods, since that's sometimes a thing.
+     * MI has a max letter count of 3, with each letter having an allowed period/dash.
      * @param input string to verify as name.
      * @return if string was well-formed name.
      */
     public static boolean isName(final String input) {
-        String rgx = "^" //if start of str required to be good
-                + "[a-zA-Z][a-zA-Z\\-]*[a-zA-Z]" //First name starts/ends with letters, dashes allowed in middle
-                + "( |, |,)" //strict valid separators.
-                //+ "[, ]{1,2}" //optional less strict valid separators between first/last name
-                + "[a-zA-Z][a-zA-Z\\-]*[a-zA-Z]" //Last name starts/ends with letters, dashes allowed in middle
+        String rgx = "(?i)" //case-insensitive for whole thing
+                + "^" //start of string
+                + "([a-z]+-?)+" //last name can be any amount of letters, a dash, repeated
+                + "(?<!\\-)" //last name can't end in dash
+                + "( |, |,)" //strict separators
+                + "([a-z]+-?)+" //first name same rules as last name
+                + "(?<!\\-)" //first name same rule as last name
                 + "(" //begin MI group
-                + "( |, |,)?" //strict optional valid separators for middle initial
-                //+ "[, ]{0,2}" //optional less strict valid separators for middle initial
-                + "(?!\\-)" //MI cannot start with dash
-                + "[a-zA-Z\\-]*" //MI can include dashes inside
-                + "(?<!\\-| )" //MI cannot end with dashes
-//                + "\\.?" //optional allowance of MI to end in period
-                + ")?" //end MI group
+                + "( |, |,)" //strict separators
+                + "([a-z][-.]?){1,3}" //MI
+                + "(?<!\\-)" //MI can't end on dash
+                + ")?" //end of MI group, which is optional
                 + "$"; //end of string reached
 
         return regexChecker(rgx, input);
