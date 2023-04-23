@@ -3,6 +3,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Regex plaything, uses regex to check for various types of string inputs.
+ * <a href="https://regex101.com/">Regex101</a> was invaluable in formation of regex.
+ */
 public class Main {
 
     /*
@@ -10,7 +14,7 @@ public class Main {
      */
 
     /**
-     * Unused, it prints some regex for fun so I know when I ran the wrong file :D.
+     * Unused, it prints some regex for fun, so I know when I ran the wrong file :D.
      * @param args unused.
      */
     public static void main(String[] args) {
@@ -40,17 +44,16 @@ public class Main {
         return mat.matches(); //bet this works.
 
         //from the harness, probably don't need.
-//        if (mat.find()) {
-//            System.out.printf("I found the text" +
-//                            " \"%s\" starting at " +
-//                            "index %d and ending at index %d.%n",
-//                    mat.group(),
-//                    mat.start(),
-//                    mat.end());
-//            return true;
-//        }
-//
-//        return false;
+/*        if (mat.find()) {
+            System.out.printf("I found the text" +
+                            " \"%s\" starting at " +
+                            "index %d and ending at index %d.%n",
+                    mat.group(),
+                    mat.start(),
+                    mat.end());
+            return true;
+        }
+        return false;*/
     }
 
     /**
