@@ -364,6 +364,13 @@ public class Main {
         return regexChecker(rgx, input);
     }
 
+    /**
+     * Accepts odd character count words which end in "ion".
+     * Case-insensitive for the "ion" append of the word.
+     * If case is desired to be sensed, swap the commented regex out below.
+     * @param input string to check for ions.
+     * @return if string was properly ionized.
+     */
     public static boolean isOddIon(final String input) {
         String rgx = "(?i)" //case-insensitive for whole situation
                 + "^" //if start of str required to be good
